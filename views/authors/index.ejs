@@ -1,0 +1,17 @@
+<h2>Search Authors</h2>
+<form method="GET" action="/authors">
+    <label>Name</label>
+    <input type="text" name="txtSearchAuthor" value="<%= searchOptions.txtSearchAuthor%>">
+    <button type="submit">Submit</button>
+
+</form>
+
+
+<br>
+<br>
+<% if(authors.length <= 0) {%>
+<div>No Records Found</div>
+<% }%>
+<% authors.forEach(authors => { %>
+<div><%= authors.name %> </div>
+<% }); %>
