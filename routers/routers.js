@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const Books = require('../modal/books');
 
-router.get('/', (req, res) => {
-    res.render('index.ejs');
+router.get('/', async (req, res) => {
+    try {
+        const allBooks = await Books.find({});
+        res.render('index', { allBooks: allBooks });
+    } catch{
+        res.redirect('/');
+
+    }
 });
 
 module.exports = router;

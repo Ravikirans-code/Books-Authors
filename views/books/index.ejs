@@ -1,0 +1,30 @@
+<h2>Search Books</h2>
+<form method="GET" action="/books">
+    <div>
+        <label>Title</label>
+        <input type="text" name="txtSearchBooks" value="<%= searchOptions.txtSearchBooks%>">
+    </div>
+    <div>
+        <label>Published Before Date</label>
+        <input type="date" name="txtPublishedBefore" value="<%= searchOptions.txtPublishedBefore%>">
+    </div>
+    <div>
+        <label>Published After Date</label>
+        <input type="date" name="txtPublishedAfter" value="<%= searchOptions.txtPublishedAfter%>">
+    </div>
+    <button type="submit">Submit</button>
+
+</form>
+
+
+<br>
+<br>
+<% if(allBooks.length <= 0) {%>
+<div>No Records Found</div>
+<% }%>
+<% allBooks.forEach(book => { console.log('ejs files',book.coverImagePath);%>
+<div>
+    <img src="<%= book.coverImagePath %>" width="150" height="150">
+</div>
+
+<% }); %>

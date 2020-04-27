@@ -1,1 +1,8 @@
-My New Application`
+<h2>Recently Addedd</h2>
+
+<% allBooks.forEach(book => { console.log('ejs files',book.coverImagePath);%>
+<div>
+    <img src="<%= book.coverImagePath %>" width="150" height="150">
+</div>
+
+<% }); %>
