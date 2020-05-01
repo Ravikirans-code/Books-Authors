@@ -1,6 +1,6 @@
 <h1>Create New Book</h1>
 
-<form method="POST" action="/books" enctype="multipart/form-data">
+<form method="POST" action="/books">
     <div>
         <label>Title</label>
         <input type="text" name="txtTitle" value=<% book.txtTitle%>>
@@ -23,7 +23,7 @@
     </div>
     <div>
         <label>Cover</label>
-        <input type="file" name="PageCover">
+        <input type="file" name="PageCover" class="filepond">
     </div>
     <div>
         <label>Description</label>

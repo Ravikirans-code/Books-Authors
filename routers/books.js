@@ -2,22 +2,8 @@ const express = require('express');
 const Router = express.Router();
 const Author = require('../modal/authors');
 const Books = require('../modal/books');
-const multer = require('multer');
-const path = require('path');
 
-var fs = require('fs');
-// var gutil = require('gulp-util');
-
-const uploadPath = path.join('public', Books.coverImageBasePath);
 const imageFormat = ['image/jpeg', 'image/png', 'image/jpg']
-
-const upload = multer({
-    dest: uploadPath,
-    fileFilter: (req, file, callback) => {
-        callback(null, imageFormat.includes(file.mimetype))
-
-    }
-});
 
 //All Books Route
 Router.get('/', async (req, res) => {
@@ -55,41 +41,35 @@ Router.get('/new', async (req, res) => {
 });
 
 //Add books into mongo
-Router.post('/', upload.single('PageCover'), async (req, res) => {
-    const filename = req.file != null ? req.file.filename : null;
+Router.post('/', async (req, res) => {
     const book = new Books({
         title: req.body.txtTitle,
         author: req.body.sltAuthor,
         publishDate: new Date(req.body.txtPublishDate),
         pageCount: req.body.txtPageCount,
-        coverImageName: filename,
         descripton: req.body.txtaDescription,
     });
-    console.log(req.file);
+    saveCover(book, req.body.PageCover);
+    // console.log(book);
     try {
         const newBook = await book.save();
         res.redirect('/books');
     } catch (e) {
-        fs.unlink(path.join(uploadPath, filename), err => {
-            console.log(err);
-        });
-        // fs.exists(path.join(uploadPath, filename), function (exists) {
-        //     if (exists) {
-        //         //Show in green
-        //         // console.log(gutil.colors.green('File exists. Deleting now ...'));
-        //         fs.unlink(path.join(uploadPath, filename), err => {
-        //             console.log(err);
-        //         });
-        //     } else {
-        //         //Show in red
-        //         // console.log(gutil.colors.red('File not found, so not deleting.'));
-        //     }
-        // });
         renderNewPage(res, book, e);
 
     }
 
 });
+
+function saveCover(book, coverEncoded){
+    if(coverEncoded == null) return;
+    const cover = JSON.parse(coverEncoded);
+    if(cover != null && imageFormat.includes(cover.type)){
+        book.coverImage = new Buffer.from(cover.data, 'base64');
+        book.coverImageType = cover.type;
+    }
+
+}
 
 async function renderNewPage(res, book, errorMessage = false) {
     try {
