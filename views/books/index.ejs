@@ -22,9 +22,9 @@
 <% if(allBooks.length <= 0) {%>
 <div>No Records Found</div>
 <% }%>
-<% allBooks.forEach(book => {%>
 <div>
+    <% allBooks.forEach(book => {%>
     <img src="<%= book.coverImagePath %>" width="150" height="150">
-</div>
 
-<% }); %>
+    <% }); %>
+</div>
