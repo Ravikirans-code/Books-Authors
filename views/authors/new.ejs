@@ -1,8 +1,14 @@
-<h1>create New authors</h1>
+<h2 class="page-header">New Author</h2>
 
 <form method="POST" action="/authors">
-    <label>Name</label>
-    <input type="text" name="txtAuthorName" value=<% author.txtAuthorName%>>
-    <a href="/authors">Cancel</a>
-    <button type="submit">Submit</button>
+    <div class="form-row">
+        <div class="form-item">
+            <label>Name</label>
+            <input type="text" name="txtAuthorName" value=<% author.name%>>
+        </div>
+    </div>
+    <div class="form-row form-row-end btn-row">
+        <a class="btn btn-danger" href="/authors">Cancel</a>
+        <button class="btn btn-primary" type="submit">Create</button>
+    </div>
 </form>

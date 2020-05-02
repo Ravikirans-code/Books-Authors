@@ -1,22 +1,23 @@
-<h2>Search Authors</h2>
+<h2 class="page-header">Search Authors</h2>
 <form method="GET" action="/authors">
-    <label>Name</label>
-    <input type="text" name="txtSearchAuthor" value="<%= searchOptions.txtSearchAuthor%>">
-    <button type="submit">Submit</button>
-
+    <div class="form-row">
+        <div class="form-item">
+            <label>Name</label>
+            <input type="text" name="txtSearchAuthor" value="<%= searchOptions.txtSearchAuthor %>">
+        </div>
+    </div>
+    <div class="form-row form-row-end">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
 </form>
-
-
 <br>
-<br>
-<% if(authors.length <= 0) {%>
-<div>No Records Found</div>
-<% }%>
-<% authors.forEach(authors => { %>
-<div><%= authors.name %> </div>
-<a href="/authors/<%= authors.id%>">View</a>
-<a href="/authors/<%= authors.id%>/edit">Edit</a>
-<%- include('../partials/_form_delete.js', {url: `/authors/${authors.id}`})%>
-
-
-<% }); %>
+<% authors.forEach(author => { %>
+  <div class="author-row">
+    <div class="author-name"><%= author.name %></div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="/authors/<%= author.id %>">View</a>
+      <a class="btn btn-primary" href="/authors/<%= author.id %>/edit">Edit</a>
+      <%- include('../partials/_form_delete.js', {url: `/authors/${authors.id}`})%>
+    </div>
+  </div>
+<% }) %>

@@ -1,15 +1,16 @@
-<h1><%= authors.name%></h1>
-
-<a href="/authors/<%= authors.id%>/edit">Edit</a>
+<h2 class="page-header"><%= authors.name %></h2>
+<div class="btn-row">
+    <a class="btn btn-primary" href="/authors/<%= authors.id %>/edit">Edit</a>
 <%- include('../partials/_form_delete.js', {url: `/authors/${authors.id}`})%>
+</div>
 
 <% if(booksByAuthors.length > 0){%>
-    Books By author
-<div> 
+    <h2 class="page-header">Books By Author</h2>
+<div>
     <% booksByAuthors.forEach(book => {%>
-        <a href="/books/<%= book.id%>">
-    <img src="<%= book.coverImagePath %>" width="150" height="150">
-</a>
+    <a href="/books/<%= book.id%>">
+        <img src="<%= book.coverImagePath %>" width="150" height="150">
+    </a>
     <% }); %>
 </div>
 <% }%>
