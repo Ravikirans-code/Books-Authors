@@ -1,34 +1,7 @@
 <h1>Create New Book</h1>
 
 <form method="POST" action="/books">
-    <div>
-        <label>Title</label>
-        <input type="text" name="txtTitle" value=<% book.txtTitle%>>
-    </div>
-    <div>
-        <label>Author</label>
-        <select name="sltAuthor">
-            <% authors.forEach(authors =>{ %>
-            <option value="<%= authors._id%>"><%= authors.name%></option>
-            <% })%>
-        </select>
-    </div>
-    <div>
-        <label>Publish Date</label>
-        <input type="date" name="txtPublishDate" value=<% book.txtPublishDate%>>
-    </div>
-    <div>
-        <label>Page Count</label>
-        <input type="number" name="txtPageCount" value=<% book.txtPageCount%>>
-    </div>
-    <div>
-        <label>Cover</label>
-        <input type="file" name="PageCover" class="filepond">
-    </div>
-    <div>
-        <label>Description</label>
-        <textarea name="txtaDescription"><% book.txtaDescription%></textarea>
-    </div>
-    <a href="/authors">Cancel</a>
+<%- include('./_form_fields.ejs') %>
+    <a href="/books">Cancel</a>
     <button type="submit">Submit</button>
 </form>

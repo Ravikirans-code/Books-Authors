@@ -26,7 +26,7 @@ const bookSchema = new Schema({
         type: String,
         required: true
     },
-    descripton: {
+    description: {
         type: String,
         required: true
     },

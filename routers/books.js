@@ -20,7 +20,7 @@ Router.get('/', async (req, res) => {
     }
     let allBooks = {};
     try {
-        console.log('searchOptions',searchOptions.title);
+        console.log('searchOptions', searchOptions.title);
         if (searchOptions.title != null) {
             allBooks = await Books.find({ "title": searchOptions.title, "publishDate": { "$gte": searchOptions.txtPublishedBefore, "$lte": searchOptions.txtPublishedAfter } });
         } else {
@@ -37,7 +37,7 @@ Router.get('/', async (req, res) => {
 
 //Create books route
 Router.get('/new', async (req, res) => {
-    renderNewPage(res, new Books());
+    renderFormPage(res, new Books(), 'new', errorMessage = false);
 });
 
 //Add books into mongo
@@ -47,7 +47,7 @@ Router.post('/', async (req, res) => {
         author: req.body.sltAuthor,
         publishDate: new Date(req.body.txtPublishDate),
         pageCount: req.body.txtPageCount,
-        descripton: req.body.txtaDescription,
+        description: req.body.txtaDescription,
     });
     saveCover(book, req.body.PageCover);
     // console.log(book);
@@ -55,31 +55,89 @@ Router.post('/', async (req, res) => {
         const newBook = await book.save();
         res.redirect('/books');
     } catch (e) {
-        renderNewPage(res, book, e);
+        console.log(e);
+        renderFormPage(res, book,'new', e);
 
     }
 
 });
 
-function saveCover(book, coverEncoded){
-    if(coverEncoded == null) return;
+Router.get('/:id', async (req, res) => {
+    try {
+        const books = await Books.findById(req.params.id).populate('author').exec();
+        res.render('books/view', { books: books });
+    } catch{
+        res.redirect('/');
+    }
+});
+Router.get('/:id/edit', async (req, res) => {
+    try {
+        const books = await Books.findById(req.params.id).populate('author').exec();
+        renderFormPage(res, books, 'edit', errorMessage = false);
+    } catch (e) {
+        renderFormPage(res, book, e);
+    }
+});
+Router.delete('/:id', async (req, res) => {
+    let book;
+    try {
+        book = await Books.findById(req.params.id);
+        await book.remove();
+        res.redirect('/books');
+    } catch (e) {
+        if (book == null) {
+            res.redirect('/');
+        } else {
+            console.log(e);
+            res.redirect(`/books/${book.id}`);
+        }
+    }
+});
+
+Router.put('/:id', async (req, res) => {
+    let book
+    try {
+        book = await Books.findById(req.params.id);
+        book.title = req.body.txtTitle;
+        book.author = req.body.sltAuthor;
+        book.publishDate = new Date(req.body.txtPublishDate);
+        book.pageCount = req.body.txtPageCount;
+        book.description = req.body.txtaDescription;
+        if(req.body.PageCover != null && req.body.PageCover !== ''){
+            saveCover(book, req.body.PageCover);
+        }
+        await book.save();
+        res.redirect(`/books/${book.id}`);
+    } catch (e) {
+        if (book == null) {
+            res.redirect('/');
+        } else {
+            console.log(e);
+            res.redirect('/books');
+        }
+
+    }
+});
+
+function saveCover(book, coverEncoded) {
+    if (coverEncoded == null) return;
     const cover = JSON.parse(coverEncoded);
-    if(cover != null && imageFormat.includes(cover.type)){
+    if (cover != null && imageFormat.includes(cover.type)) {
         book.coverImage = new Buffer.from(cover.data, 'base64');
         book.coverImageType = cover.type;
     }
 
 }
 
-async function renderNewPage(res, book, errorMessage = false) {
+async function renderFormPage(res, book, form, errorMessage = false) {
     try {
         const authors = await Author.find({});
-        const book = new Books()
-        let params = { authors, book };
+        let params = { authors: authors, book: book };
         if (errorMessage) {
             params.errorMessage = errorMessage;
         }
-        res.render('books/new', params);
+
+        res.render(`books/${form}`, params);
     } catch{
         res.redirect('/books');
     }
