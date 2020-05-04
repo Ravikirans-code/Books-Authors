@@ -2,9 +2,10 @@ const express = require('express');
 const Router = express.Router();
 const Authors = require('../modal/authors');
 const Books = require('../modal/books');
+const auth = require('../middlewares/auth');
 
 //All Authors Route
-Router.get('/', async (req, res) => {
+Router.get('/',auth.checkAuthenticated, async (req, res) => {
     let searchOptions = {};
     if (req.query.txtSearchAuthor != null && req.query.txtSearchAuthor !== '') {
         searchOptions.name = new RegExp(req.query.txtSearchAuthor, 'i');
@@ -26,12 +27,12 @@ Router.get('/', async (req, res) => {
 
 
 //Create new route
-Router.get('/new', (req, res) => {
+Router.get('/new',auth.checkAuthenticated, (req, res) => {
     res.render('authors/new', { author: new Authors() });
 });
 
 //Add author into mongo
-Router.post('/', async (req, res) => {
+Router.post('/',auth.checkAuthenticated, async (req, res) => {
     const author = new Authors({
         name: req.body.txtAuthorName
     })
@@ -47,7 +48,7 @@ Router.post('/', async (req, res) => {
     }
 });
 
-Router.get('/:id', async (req, res) => {
+Router.get('/:id',auth.checkAuthenticated, async (req, res) => {
     try{
         const author  = await Authors.findById(req.params.id);
         const books  = await Books.find({author: req.params.id}).limit(6).exec();
@@ -59,7 +60,7 @@ Router.get('/:id', async (req, res) => {
         res.redirect('/');
     }
 });
-Router.get('/:id/edit', async (req, res) => {
+Router.get('/:id/edit',auth.checkAuthenticated, async (req, res) => {
     console.log(req.params.id);
     try {
         const authors = await Authors.findById(req.params.id);
@@ -68,7 +69,7 @@ Router.get('/:id/edit', async (req, res) => {
         res.redirect('/authors');
     }
 });
-Router.delete('/:id', async (req, res) => {
+Router.delete('/:id',auth.checkAuthenticated, async (req, res) => {
     // res.send('Delete Page' + req.params.id);
     let author;
     try {
@@ -85,7 +86,7 @@ Router.delete('/:id', async (req, res) => {
         }
     }
 });
-Router.put('/:id', async (req, res) => {
+Router.put('/:id',auth.checkAuthenticated, async (req, res) => {
     let author;
     try {
         author = await Authors.findById(req.params.id);

@@ -1,11 +1,14 @@
 <header>
-    <nav class="header-nav">
-      <a class="header-title" href="/">Books & Authors</a>
-      <ul>
-        <li><a href="/authors">Authors</a></li>
-        <li><a href="/authors/new">Add Author</a></li>
-        <li><a href="/books">Books</a></li>
-        <li><a href="/books/new">Add Book</a></li>
-      </ul>
-    </nav>
-  </header>
+  <nav class="header-nav">
+    <a class="header-title" href="/">Books & Authors</a>
+    <ul>
+      <li><a href="/authors">Authors</a></li>
+      <li><a href="/authors/new">Add Author</a></li>
+      <li><a href="/books">Books</a></li>
+      <li><a href="/books/new">Add Book</a></li>
+      <form method="POST" action="/authentication/logout?_method=DELETE">
+        <button type="submit">Logout</button>
+      </form>
+    </ul>
+  </nav>
+</header>

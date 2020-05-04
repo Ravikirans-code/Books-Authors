@@ -1,0 +1,31 @@
+<form action="/authentication/login" method="POST">
+    <div class="container">
+
+        <h1>Login</h1>
+        <p>Please fill in this form to create an account.</p>
+        <hr>
+
+        <div class="form-row">
+            <div class="form-item">
+                <label for="email"><b>Email</b></label>
+                <input type="email" placeholder="Enter Email" name="email" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-item">
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+            </div>
+        </div>
+
+        <hr>
+        <div class="form-row form-row-end btn-row">
+            <button type="submit" class="btn btn-primary">Login</button>
+            
+        </div>
+    </div>
+
+    <div class="container signin">
+        <p>New User? <button type="submit" class="btn btn-primary"><a href="/authentication/registration">Sign Up</a></button></p>
+    </div>
+</form>

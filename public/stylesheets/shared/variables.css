@@ -1,4 +1,12 @@
 :root {
+  /* --color-base-ahue: 4000;
+  --color-danger-ahue-offset: 180;
+  --color-background-adark: hsl(var(--color-base-ahue), 100%, 8%);
+  --color-background-alight: hsl(var(--color-base-ahue), 100%, 16%);
+  --color-danger-ahue: calc(var(--color-base-ahue) - var(--color-danger-ahue-offset));
+  --color-background-alight: hsl(var(--color-base-ahue), 100%, 16%);
+  --color-text-alight: hsl(var(--color-base-ahue), 100%, 87%);
+   */
   --color-base-hue: 4000;
   --color-danger-hue-offset: 180;
   --color-danger-hue: calc(var(--color-base-hue) - var(--color-danger-hue-offset));

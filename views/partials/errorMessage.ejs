@@ -1,3 +1,8 @@
-<% if (locals.errorMessage != null) { %>
-    <div class="error-message"><%= errorMessage %></div>
+
+  <% console.log('local ',messages.error); %>
+<%  if (locals.errorMessage != null) { %>
+    <div class="error-message"><%= locals.errorMessage %></div>
+  <% } %>
+<%  if (messages.error != null) { %>
+    <div class="error-message"><%= messages.error %></div>
   <% } %>
